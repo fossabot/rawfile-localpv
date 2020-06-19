@@ -11,6 +11,6 @@ cat $HOME/.ssh/id_rsa.pub >>$HOME/.ssh/authorized_keys
 
 ./e2e.test \
   -ginkgo.v \
-  -ginkgo.focus='External.Storage' \
+  -ginkgo.focus='External.Storage.*Disruptive' \
   -storage.testdriver=rawfile-driver.yaml \
   -report-dir report/
