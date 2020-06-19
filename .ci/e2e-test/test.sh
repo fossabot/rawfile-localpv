@@ -9,8 +9,15 @@ curl --location https://dl.k8s.io/v1.17.0/kubernetes-test-linux-amd64.tar.gz | t
 ssh-keygen -N "" -f $HOME/.ssh/id_rsa
 cat $HOME/.ssh/id_rsa.pub >>$HOME/.ssh/authorized_keys
 
-./e2e.test \
-  -ginkgo.v \
-  -ginkgo.focus='External.Storage.*Disruptive' \
-  -storage.testdriver=rawfile-driver.yaml \
-  -report-dir report/
+./ginkgo -p -v \
+  -focus='External.Storage' \
+  -skip='\[Feature:|\[Disruptive\]|\[Serial\]' \
+  ./e2e.test \
+  -- \
+  -storage.testdriver=rawfile-driver.yaml
+
+./ginkgo -v \
+  -focus='External.Storage.*(\[Feature:|\[Disruptive\]|\[Serial\])' \
+  ./e2e.test \
+  -- \
+  -storage.testdriver=rawfile-driver.yaml
